@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div layout:fragment="content" class="container my-3">
+		<table class="table">
+			<thead class="table-dark">
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성일시</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="recruit, loop : ${recruitList}">
+					<td th:text="${loop.count}"></td>
+					<td><a th:href="@{|/recruit/detail/${recruit.id}|}"
+						th:text="${recruit.subject}"></a></td>
+					<td
+						th:text="${#temporals.format(recruit.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<a th:href="@{/recruit/create}" class="btn btn-primary">여행모집글 등록하기</a>
+	</div>
+</body>
+</html>
