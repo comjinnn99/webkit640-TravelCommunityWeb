@@ -15,6 +15,7 @@ import com.example.travelko.entity.Recruit;
 import com.example.travelko.entity.Reply;
 import com.example.travelko.repository.RecruitRepository;
 import com.example.travelko.repository.ReplyRepository;
+import com.example.travelko.service.RecruitService;
 
 import jakarta.transaction.Transactional;
 
@@ -22,23 +23,25 @@ import jakarta.transaction.Transactional;
 class TravelkoApplicationTests {
 
 	@Autowired
-	private RecruitRepository recruitRepository;
-	
-    @Autowired
-    private ReplyRepository replyRepository;
+    private RecruitService recruitService;
     
-    @Transactional
 	@Test
 	void testJpa() {
-        Optional<Recruit> oq = this.recruitRepository.findById(4);
-        assertTrue(oq.isPresent());
-        Recruit q = oq.get();
-
-        Reply a = new Reply();
-        a.setContent("네 자동으로 생성됩니다.");
-        a.setRecruit(q);  // 어떤 질문의 답변인지 알기위해서 Question 객체가 필요하다.
-        a.setCreateDate(LocalDateTime.now());
-        this.replyRepository.save(a);
+        for (int i = 1; i <= 100; i++) {
+            String subject = String.format("테스트 데이터입니다:[%03d]", i);
+            String content = "내용무";
+            String region = "서울";
+            String startDate = "2023/05/01";
+            String endDate = "2023/05/05";
+            
+            this.recruitService.create(
+            		subject,
+            		content,
+            		region,
+            		startDate,
+            		endDate
+            		);
+        }
 	}
 
 }

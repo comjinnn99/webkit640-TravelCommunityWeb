@@ -2,6 +2,7 @@ package com.example.travelko.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.travelko.entity.Recruit;
 import com.example.travelko.form.RecruitForm;
@@ -25,9 +27,12 @@ public class RecruitController {
 	private final RecruitService recruitService;
 	
     @GetMapping("/list")
-    public String list(Model model) {
-        List<Recruit> recruitList = this.recruitService.getList();
-        model.addAttribute("recruitList", recruitList);
+    public String list(
+    		Model model,
+    		@RequestParam(value="page", defaultValue="0") int page
+    		) {
+    	Page<Recruit> paging = this.recruitService.getList(page);
+        model.addAttribute("paging", paging);
         
         return "recruit_list";
     }
