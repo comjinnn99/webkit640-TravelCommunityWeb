@@ -16,9 +16,15 @@
 			</thead>
 			<tbody>
 				<tr th:each="recruit, loop : ${paging}">
-					<td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
+					<td
+						th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
 					<td><a th:href="@{|/recruit/detail/${recruit.id}|}"
-						th:text="${recruit.subject}"></a></td>
+						th:text="${recruit.subject}"></a>
+						<span
+						class="text-danger small ms-2"
+						th:if="${#lists.size(recruit.replyList) > 0}"
+						th:text="${#lists.size(recruit.replyList)}"> </span>
+					</td>
 					<td
 						th:text="${#temporals.format(recruit.createDate, 'yyyy-MM-dd HH:mm')}"></td>
 				</tr>
