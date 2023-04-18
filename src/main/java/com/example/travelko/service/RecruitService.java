@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.travelko.DataNotFoundException;
 import com.example.travelko.entity.Recruit;
+import com.example.travelko.entity.SiteUser;
 import com.example.travelko.repository.RecruitRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,8 @@ public class RecruitService {
     		String content,
     		String region,
     		String startDate,
-    		String endDate
+    		String endDate,
+    		SiteUser user
     		) {
     	Recruit q = new Recruit();
         q.setSubject(subject);
@@ -54,6 +56,7 @@ public class RecruitService {
         q.setRegion(region);
         q.setStartDate(startDate);
         q.setEndDate(endDate);
+        q.setAuthor(user);
         this.recruitRepository.save(q);
     }
     

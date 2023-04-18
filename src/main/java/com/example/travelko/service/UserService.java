@@ -1,9 +1,12 @@
 package com.example.travelko.service;
 
+import java.util.Optional;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.travelko.DataNotFoundException;
 import com.example.travelko.entity.SiteUser;
 import com.example.travelko.repository.UserRepository;
 
@@ -32,5 +35,14 @@ public class UserService {
         user.setPhone(phone);
         this.userRepository.save(user);
         return user;
+    }
+    
+    public SiteUser getUser(String username) {
+        Optional<SiteUser> siteUser = this.userRepository.findByUsername(username);
+        if (siteUser.isPresent()) {
+            return siteUser.get();
+        } else {
+            throw new DataNotFoundException("siteuser not found");
+        }
     }
 }

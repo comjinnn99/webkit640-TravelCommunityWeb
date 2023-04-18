@@ -28,4 +28,7 @@ public class Reply {
 
     @ManyToOne
     private Recruit recruit;
+    
+    @ManyToOne
+    private SiteUser author;
 }
