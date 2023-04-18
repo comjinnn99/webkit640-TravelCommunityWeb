@@ -17,6 +17,12 @@
 				<div class="card-text" style="white-space: pre-line;"
 					th:text="${recruit.content}"></div>
 				<div class="d-flex justify-content-end">
+					<div th:if="${recruit.modifyDate != null}"
+						class="badge bg-light text-dark p-2 text-start mx-3">
+						<div class="mb-2">modified at</div>
+						<div
+							th:text="${#temporals.format(recruit.modifyDate, 'yyyy-MM-dd HH:mm')}"></div>
+					</div>
 					<div class="badge bg-light text-dark p-2 text-start">
 						<div class="mb-2">
 							<span th:if="${recruit.author != null}"
@@ -25,6 +31,18 @@
 						<div
 							th:text="${#temporals.format(recruit.createDate, 'yyyy-MM-dd HH:mm')}"></div>
 					</div>
+				</div>
+				<div class="my-3">
+					<a th:href="@{|/recruit/modify/${recruit.id}|}"
+						class="btn btn-sm btn-outline-secondary"
+						sec:authorize="isAuthenticated()"
+						th:if="${recruit.author != null and #authentication.getPrincipal().getUsername() == recruit.author.username}"
+						th:text="수정"></a> <a href="javascript:void(0);"
+						th:data-uri="@{|/recruit/delete/${recruit.id}|}"
+						class="delete btn btn-sm btn-outline-secondary"
+						sec:authorize="isAuthenticated()"
+						th:if="${recruit.author != null and #authentication.getPrincipal().getUsername() == recruit.author.username}"
+						th:text="삭제"></a>
 				</div>
 			</div>
 		</div>
@@ -37,6 +55,12 @@
 				<div class="card-text" style="white-space: pre-line;"
 					th:text="${reply.content}"></div>
 				<div class="d-flex justify-content-end">
+					<div th:if="${reply.modifyDate != null}"
+						class="badge bg-light text-dark p-2 text-start mx-3">
+						<div class="mb-2">modified at</div>
+						<div
+							th:text="${#temporals.format(reply.modifyDate, 'yyyy-MM-dd HH:mm')}"></div>
+					</div>
 					<div class="badge bg-light text-dark p-2 text-start">
 						<div class="mb-2">
 							<span th:if="${reply.author != null}"
@@ -45,6 +69,18 @@
 						<div
 							th:text="${#temporals.format(reply.createDate, 'yyyy-MM-dd HH:mm')}"></div>
 					</div>
+				</div>
+				<div class="my-3">
+					<a th:href="@{|/reply/modify/${reply.id}|}"
+						class="btn btn-sm btn-outline-secondary"
+						sec:authorize="isAuthenticated()"
+						th:if="${reply.author != null and #authentication.getPrincipal().getUsername() == reply.author.username}"
+						th:text="수정"></a> <a href="javascript:void(0);"
+						th:data-uri="@{|/reply/delete/${reply.id}|}"
+						class="delete btn btn-sm btn-outline-secondary"
+						sec:authorize="isAuthenticated()"
+						th:if="${reply.author != null and #authentication.getPrincipal().getUsername() == reply.author.username}"
+						th:text="삭제"></a>
 				</div>
 			</div>
 		</div>
@@ -60,5 +96,16 @@
 			<input type="submit" value="답변등록" class="btn btn-primary my-2">
 		</form>
 	</div>
+	<script layout:fragment="script" type='text/javascript'>
+		const delete_elements = document.getElementsByClassName("delete");
+		Array.from(delete_elements).forEach(function(element) {
+			element.addEventListener('click', function() {
+				if (confirm("정말로 삭제하시겠습니까?")) {
+					location.href = this.dataset.uri;
+				}
+				;
+			});
+		});
+	</script>
 </body>
 </html>

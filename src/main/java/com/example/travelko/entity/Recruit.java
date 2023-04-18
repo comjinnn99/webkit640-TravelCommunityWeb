@@ -40,4 +40,6 @@ public class Recruit {
     
     @ManyToOne
     private SiteUser author;
+    
+    private LocalDateTime modifyDate;
 }

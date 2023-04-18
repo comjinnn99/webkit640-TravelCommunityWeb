@@ -60,4 +60,25 @@ public class RecruitService {
         this.recruitRepository.save(q);
     }
     
+    public void modify(
+    		Recruit recruit,
+    		String subject,
+    		String content,
+    		String region,
+    		String startDate,
+    		String endDate
+    		) {
+    	recruit.setSubject(subject);
+    	recruit.setContent(content);
+    	recruit.setRegion(region);
+    	recruit.setStartDate(startDate);
+    	recruit.setEndDate(endDate);
+    	recruit.setModifyDate(LocalDateTime.now());
+        this.recruitRepository.save(recruit);
+    }
+    
+    public void delete(Recruit question) {
+        this.recruitRepository.delete(question);
+    }
+    
 }
