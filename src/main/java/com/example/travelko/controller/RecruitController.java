@@ -36,11 +36,12 @@ public class RecruitController {
     @GetMapping("/list")
     public String list(
     		Model model,
-    		@RequestParam(value="page", defaultValue="0") int page
+    		@RequestParam(value="page", defaultValue="0") int page,
+    		@RequestParam(value = "kw", defaultValue = "") String kw
     		) {
-    	Page<Recruit> paging = this.recruitService.getList(page);
+    	Page<Recruit> paging = this.recruitService.getList(page, kw);
         model.addAttribute("paging", paging);
-        
+        model.addAttribute("kw", kw);
         return "recruit_list";
     }
     
@@ -100,7 +101,7 @@ public class RecruitController {
     
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
-    public String questionModify(@Valid RecruitForm recruitForm, BindingResult bindingResult, 
+    public String recruitModify(@Valid RecruitForm recruitForm, BindingResult bindingResult, 
             Principal principal, @PathVariable("id") Integer id) {
         if (bindingResult.hasErrors()) {
             return "question_form";
@@ -122,7 +123,7 @@ public class RecruitController {
     
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
-    public String questionDelete(Principal principal, @PathVariable("id") Integer id) {
+    public String recruitDelete(Principal principal, @PathVariable("id") Integer id) {
     	Recruit recruit = this.recruitService.getRecruit(id);
         if (!recruit.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
