@@ -41,16 +41,17 @@ public class RecruitService {
 		return this.recruitRepository.findAll(spec, pageable);
 	}
 
+	// id 값으로 Recruit 데이터 조회
 	public Recruit getRecruit(Integer id) {
 		Optional<Recruit> recruit = this.recruitRepository.findById(id);
-		if (recruit.isPresent()) {
+		if (recruit.isPresent()) { // 해당 데이터가 있는지 검사하는 로직
 			return recruit.get();
 		} else {
 			throw new DataNotFoundException("recruit not found");
 		}
 	}
 
-	public void create(String subject, String content, String region, String startDate, String endDate, SiteUser user) {
+	public Recruit create(String subject, String content, String region, String startDate, String endDate, SiteUser user) {
 		Recruit q = new Recruit();
 		q.setSubject(subject);
 		q.setContent(content);
@@ -59,7 +60,7 @@ public class RecruitService {
 		q.setStartDate(startDate);
 		q.setEndDate(endDate);
 		q.setAuthor(user);
-		this.recruitRepository.save(q);
+		return this.recruitRepository.save(q);
 	}
 
 	public void modify(Recruit recruit, String subject, String content, String region, String startDate,
@@ -89,9 +90,10 @@ public class RecruitService {
 				Join<Reply, SiteUser> u2 = a.join("author", JoinType.LEFT);
 				return cb.or(cb.like(q.get("subject"), "%" + kw + "%"), // 제목
 						cb.like(q.get("content"), "%" + kw + "%"), // 내용
-						cb.like(u1.get("username"), "%" + kw + "%"), // 질문 작성자
-						cb.like(a.get("content"), "%" + kw + "%"), // 답변 내용
-						cb.like(u2.get("username"), "%" + kw + "%")); // 답변 작성자
+						cb.like(q.get("region"), "%" + kw + "%")); // 내용
+//						cb.like(u1.get("username"), "%" + kw + "%"), // 질문 작성자
+//						cb.like(a.get("content"), "%" + kw + "%"), // 답변 내용
+//						cb.like(u2.get("username"), "%" + kw + "%")); // 답변 작성자
 			}
 		};
 	}

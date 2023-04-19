@@ -33,6 +33,7 @@ public class ReplyController {
 	private final ReplyService replyService;
 	private final UserService userService;
 
+	// 댓글 생성
 	@PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}")
     public String createReply(
@@ -42,6 +43,8 @@ public class ReplyController {
     		BindingResult bindingResult,
     		Principal principal
     		) {
+		// 댓글을 저장한다.
+		// 해당 글 객체를 가져오고, 사용자 인증
     	Recruit recruit = this.recruitService.getRecruit(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
         if (bindingResult.hasErrors()) {

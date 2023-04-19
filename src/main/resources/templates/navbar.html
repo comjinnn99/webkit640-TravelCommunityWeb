@@ -23,9 +23,23 @@
 						th:href="@{/user/logout}">로그아웃</a></li>
 					<li class="nav-item"><a class="nav-link"
 						th:href="@{/user/signup}">회원가입</a></li>
+					<li class="nav-item"><a class="nav-link withdraw"
+						sec:authorize="isAuthenticated()" href="javascript:void(0);" th:data-uri="@{/user/withdraw}">회원탈퇴</a></li>
+					<li class="nav-item"><a class="nav-link"
+						sec:authorize="isAuthenticated()" th:href="@{/user/modify}">회원정보수정</a></li>
 				</ul>
 			</div>
 		</div>
+	<script layout:fragment="navscript" type='text/javascript'>
+		const withdraw_elements = document.getElementsByClassName("withdraw");
+		Array.from(withdraw_elements).forEach(function(element) {
+			element.addEventListener('click', function() {
+				if (confirm("정말로 회원탈퇴 하시겠습니까?")) {
+					location.href = this.dataset.uri;
+				};
+			});
+		});
+	</script>
 	</nav>
 </body>
 </html>

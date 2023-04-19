@@ -29,6 +29,7 @@ public class UserService {
         SiteUser user = new SiteUser();
         user.setUsername(username);
         user.setEmail(email);
+        // BCrypt 해싱 함수(BCrypt hashing function)를 사용해서 비밀번호를 암호화
         user.setPassword(passwordEncoder.encode(password));
         user.setAge(age);
         user.setGender(gender);
@@ -44,5 +45,25 @@ public class UserService {
         } else {
             throw new DataNotFoundException("siteuser not found");
         }
+    }
+    
+    public void delete(String username) {
+    	System.out.println("userservice >>> "+username);
+    	Optional<SiteUser> siteUser = this.userRepository.findByUsername(username);
+        if (siteUser.isPresent()) {
+        	SiteUser delSiteUser = siteUser.get();
+        	System.out.println("userservice >>> "+delSiteUser);
+        	this.userRepository.deleteById(delSiteUser.getId());
+        } else {
+            throw new DataNotFoundException("siteuser not found");
+        }
+    }
+    
+    public void modify(SiteUser siteUser, String password, String email, String age, String phone) {
+    	siteUser.setPassword(passwordEncoder.encode(password));
+    	siteUser.setEmail(email);
+    	siteUser.setAge(age);
+    	siteUser.setPhone(phone);
+    	this.userRepository.save(siteUser);
     }
 }

@@ -33,18 +33,21 @@ public class RecruitController {
 	private final RecruitService recruitService;
 	private final UserService userService;
 	
+	// 글 리스트
     @GetMapping("/list")
     public String list(
     		Model model,
     		@RequestParam(value="page", defaultValue="0") int page,
     		@RequestParam(value = "kw", defaultValue = "") String kw
     		) {
+    	// Recruit 객체를 페이지에 전달
     	Page<Recruit> paging = this.recruitService.getList(page, kw);
         model.addAttribute("paging", paging);
         model.addAttribute("kw", kw);
         return "recruit_list";
     }
     
+    // 글 상세조회
     @GetMapping(value = "/detail/{id}")
     public String detail(
     		Model model,
@@ -57,12 +60,14 @@ public class RecruitController {
     	return "recruit_detail";
     }
     
+    // 작성 버튼 클릭 시 화면 생성
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String recruitCreate(RecruitForm recruitForm) {
         return "recruit_form";
     }
     
+    // 작성 완료 시 데이터를 저장하고 리다이렉트
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String recruitCreate(
@@ -74,14 +79,16 @@ public class RecruitController {
             return "recruit_form";
         }
         SiteUser siteUser = this.userService.getUser(principal.getName());
-    	this.recruitService.create(
+    	Recruit recruit = this.recruitService.create(
     			recruitForm.getSubject(),
     			recruitForm.getContent(),
     			recruitForm.getRegion(),
     			recruitForm.getStartDate(),
     			recruitForm.getEndDate(),
     			siteUser);
-        return "redirect:/recruit/list"; // 질문 저장후 질문목록으로 이동
+    	// 생성 후 상세페이지로 리다이렉트
+    	String id = Integer.toString(recruit.getId());
+        return String.format("redirect:/recruit/detail/%s", id); // 질문 저장후 질문목록으로 이동
     }
     
     @PreAuthorize("isAuthenticated()")
@@ -104,7 +111,7 @@ public class RecruitController {
     public String recruitModify(@Valid RecruitForm recruitForm, BindingResult bindingResult, 
             Principal principal, @PathVariable("id") Integer id) {
         if (bindingResult.hasErrors()) {
-            return "question_form";
+            return "recruit_form";
         }
         Recruit recruit = this.recruitService.getRecruit(id);
         if (!recruit.getAuthor().getUsername().equals(principal.getName())) {
