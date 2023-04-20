@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div layout:fragment="content" class="container my-3">
+		<table class="table">
+			<thead class="table-dark">
+				<tr class="text-center">
+					<th style="width: 50%">제목</th>
+					<th>누가</th>
+					<th>수락</th>
+					<th>거절</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="text-center" th:each="travel, loop : ${travelN}">
+					<td><a th:href="@{|/recruit/detail/${travel.recruit.id}|}"
+						th:text="${travel.recruit.subject}"></a></td>
+					<td th:text="${travel.siteUser.username}"></td>
+					<td><a th:text="수락" th:href="@{|/travel/check/accept/${travel.id}|}"></a></td>
+					<td><a th:text="거절" th:href="@{|/travel/check/reject/${travel.id}|}"></a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

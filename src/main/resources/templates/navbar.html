@@ -27,6 +27,10 @@
 						sec:authorize="isAuthenticated()" href="javascript:void(0);" th:data-uri="@{/user/withdraw}">회원탈퇴</a></li>
 					<li class="nav-item"><a class="nav-link"
 						sec:authorize="isAuthenticated()" th:href="@{/user/modify}">회원정보수정</a></li>
+					<li class="nav-item"><a class="nav-link"
+						sec:authorize="isAuthenticated()" th:href="@{/travel/check}">여행신청자확인</a></li>
+					<li class="nav-item"><a class="nav-link"
+						sec:authorize="isAuthenticated()" th:href="@{/travel/check}">여행이력조회</a></li>
 				</ul>
 			</div>
 		</div>

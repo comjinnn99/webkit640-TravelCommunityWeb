@@ -18,9 +18,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.example.travelko.entity.Recruit;
 import com.example.travelko.entity.SiteUser;
+import com.example.travelko.entity.Travel;
 import com.example.travelko.form.RecruitForm;
 import com.example.travelko.form.ReplyForm;
 import com.example.travelko.service.RecruitService;
+import com.example.travelko.service.TravelService;
 import com.example.travelko.service.UserService;
 
 import jakarta.validation.Valid;
@@ -32,6 +34,7 @@ import lombok.RequiredArgsConstructor;
 public class RecruitController {
 	private final RecruitService recruitService;
 	private final UserService userService;
+	private final TravelService travelService;
 	
 	// 글 리스트
     @GetMapping("/list")
@@ -86,6 +89,12 @@ public class RecruitController {
     			recruitForm.getStartDate(),
     			recruitForm.getEndDate(),
     			siteUser);
+    	// Travel history
+    	// 자기가 작성한 글은 여행참가되어야한다
+    	Travel travel = this.travelService.create(recruit, siteUser);
+    	Travel myTravel = this.travelService.getTravel(travel.getId());
+    	myTravel.setAccept("1");
+    	this.travelService.modify(myTravel);
     	// 생성 후 상세페이지로 리다이렉트
     	String id = Integer.toString(recruit.getId());
         return String.format("redirect:/recruit/detail/%s", id); // 질문 저장후 질문목록으로 이동

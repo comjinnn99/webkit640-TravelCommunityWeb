@@ -40,6 +40,10 @@ public class RecruitService {
 		Specification<Recruit> spec = search(kw);
 		return this.recruitRepository.findAll(spec, pageable);
 	}
+	
+	public List<Recruit> getMyRecruitList(Long authorId){
+		return this.recruitRepository.findByAuthorId(authorId);
+	}
 
 	// id 값으로 Recruit 데이터 조회
 	public Recruit getRecruit(Integer id) {

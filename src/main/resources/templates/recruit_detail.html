@@ -46,6 +46,8 @@
 				</div>
 			</div>
 		</div>
+		<!-- 여행 신청 버튼 -->
+		<a th:href="@{|/travel/request/${recruit.id}|}" class="btn btn-primary">여행 신청</a>
 		<!-- 댓글의 갯수 표시 -->
 		<h5 class="border-bottom my-3 py-2"
 			th:text="|${#lists.size(recruit.replyList)}개의 댓글이 있습니다.|"></h5>
