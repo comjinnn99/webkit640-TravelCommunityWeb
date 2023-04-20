@@ -49,7 +49,7 @@ public class TravelController {
 		List<Recruit> myRecruitList = this.recruitService.getMyRecruitList(siteUser.getId());
 		List<Travel> travelRequestList = new ArrayList<>();
 		for (Recruit myRecruit : myRecruitList) {
-			travelRequestList = this.travelService.getList(myRecruit.getId());
+			travelRequestList.addAll(this.travelService.getList(myRecruit.getId()));
 		}
 		List<Travel> travelN = travelRequestList.stream().filter(t -> t.getAccept().equals("0")).collect(Collectors.toList());
 		model.addAttribute("travelN", travelN);
@@ -87,7 +87,7 @@ public class TravelController {
 		List<Travel> myTravelListY = myTravelList.stream().filter(t -> t.getAccept().equals("1")).collect(Collectors.toList());
 		List<Travel> myTravel = new ArrayList<>();
 		for (Travel myTravelY : myTravelListY) {
-			myTravel = this.travelService.getList(myTravelY.getRecruit().getId());
+			myTravel.addAll(this.travelService.getList(myTravelY.getRecruit().getId()));
 		}
 		List<Travel> travel = myTravel.stream().filter(t -> t.getAccept().equals("1")).collect(Collectors.toList());
 		model.addAttribute("travelY", travel);

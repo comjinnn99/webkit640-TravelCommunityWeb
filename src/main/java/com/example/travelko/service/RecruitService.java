@@ -42,7 +42,7 @@ public class RecruitService {
 	}
 	
 	public List<Recruit> getMyRecruitList(Long authorId){
-		return this.recruitRepository.findByAuthorId(authorId);
+		return this.recruitRepository.findAllByAuthorId(authorId);
 	}
 
 	// id 값으로 Recruit 데이터 조회

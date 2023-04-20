@@ -15,5 +15,5 @@ public interface RecruitRepository extends JpaRepository<Recruit, Integer> {
     List<Recruit> findBySubjectLike(String subject);
 	Page<Recruit> findAll(Pageable pageable);
 	Page<Recruit> findAll(Specification<Recruit> spec, Pageable pageable);
-	List<Recruit> findByAuthorId(Long authorId);
+	List<Recruit> findAllByAuthorId(Long authorId);
 }

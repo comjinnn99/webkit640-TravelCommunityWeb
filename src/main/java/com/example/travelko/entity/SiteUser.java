@@ -9,9 +9,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+@Table(name = "SiteUser")
 @Getter
 @Setter
 @Entity
@@ -20,18 +22,23 @@ public class SiteUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    
+    @Column(unique = true, nullable = false)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
     
+    @Column(nullable = false)
     private String age;
     
+    @Column(nullable = false)
     private String gender;
     
+    @Column(nullable = false)
     private String phone;
     
     @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)

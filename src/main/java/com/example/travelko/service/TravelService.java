@@ -30,7 +30,7 @@ public class TravelService {
 	}
 	
 	public List<Travel> getList(Integer recruitId){
-		return this.travelRepository.findByRecruitId(recruitId);
+		return this.travelRepository.findAllByRecruitId(recruitId);
 	}
 	
 	public Travel getTravel(Integer id) {
