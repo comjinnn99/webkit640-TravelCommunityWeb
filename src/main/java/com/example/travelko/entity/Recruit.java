@@ -42,4 +42,7 @@ public class Recruit {
     private SiteUser author;
     
     private LocalDateTime modifyDate;
+    
+    @OneToMany(mappedBy = "recruit", cascade = CascadeType.REMOVE)
+    private List<Travel> travelList;
 }

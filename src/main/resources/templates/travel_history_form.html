@@ -9,19 +9,21 @@
 		<table class="table">
 			<thead class="table-dark">
 				<tr class="text-center">
-					<th style="width: 50%">글 제목</th>
-					<th>신청인</th>
-					<th>수락</th>
-					<th>거절</th>
+					<th style="width: 40%">글 제목</th>
+					<th>지역</th>
+					<th>기간</th>
+					<th>참가자</th>
+					<th>참가자 전화번호</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr class="text-center" th:each="travel, loop : ${travelN}">
+				<tr class="text-center" th:each="travel, loop : ${travelY}">
 					<td><a th:href="@{|/recruit/detail/${travel.recruit.id}|}"
 						th:text="${travel.recruit.subject}"></a></td>
+					<td th:text="${travel.recruit.region}"></td>
+					<td th:text="|${travel.recruit.startDate}-${travel.recruit.endDate}|"></td>
 					<td th:text="${travel.siteUser.username}"></td>
-					<td><a th:text="수락" th:href="@{|/travel/check/accept/${travel.id}|}"></a></td>
-					<td><a th:text="거절" th:href="@{|/travel/check/reject/${travel.id}|}"></a></td>
+					<td th:text="${travel.siteUser.phone}"></td>
 				</tr>
 			</tbody>
 		</table>

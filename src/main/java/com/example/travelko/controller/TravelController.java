@@ -47,11 +47,11 @@ public class TravelController {
 	public String check(Model model, Principal principal) {
 		SiteUser siteUser = this.userService.getUser(principal.getName());
 		List<Recruit> myRecruitList = this.recruitService.getMyRecruitList(siteUser.getId());
-		List<Travel> travelList = new ArrayList<>();
+		List<Travel> travelRequestList = new ArrayList<>();
 		for (Recruit myRecruit : myRecruitList) {
-			travelList = this.travelService.getList(myRecruit.getId());
+			travelRequestList = this.travelService.getList(myRecruit.getId());
 		}
-		List<Travel> travelN = travelList.stream().filter(t -> t.getAccept().equals("0")).collect(Collectors.toList());
+		List<Travel> travelN = travelRequestList.stream().filter(t -> t.getAccept().equals("0")).collect(Collectors.toList());
 		model.addAttribute("travelN", travelN);
 
 		return "travel_request_form";
@@ -76,5 +76,22 @@ public class TravelController {
 		this.travelService.delete(travel);
 		
 		return "redirect:/travel/check";
+	}
+	
+	// 여행 이력 조회
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/history")
+	public String history(Model model, Principal principal) {
+		SiteUser siteUser = this.userService.getUser(principal.getName());
+		List<Travel> myTravelList = this.travelService.getMyTravelList(siteUser.getId());
+		List<Travel> myTravelListY = myTravelList.stream().filter(t -> t.getAccept().equals("1")).collect(Collectors.toList());
+		List<Travel> myTravel = new ArrayList<>();
+		for (Travel myTravelY : myTravelListY) {
+			myTravel = this.travelService.getList(myTravelY.getRecruit().getId());
+		}
+		List<Travel> travel = myTravel.stream().filter(t -> t.getAccept().equals("1")).collect(Collectors.toList());
+		model.addAttribute("travelY", travel);
+		
+		return "travel_history_form";
 	}
 }

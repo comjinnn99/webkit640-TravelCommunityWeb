@@ -41,7 +41,11 @@ public class TravelService {
 			throw new DataNotFoundException("travel not found");
 		}
 	}
-
+	
+	public List<Travel> getMyTravelList(Long id){
+		return this.travelRepository.findBySiteUserId(id);
+	}
+	
 	public void modify(Travel travel) {
 		this.travelRepository.save(travel);
 	}

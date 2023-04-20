@@ -47,7 +47,11 @@
 			</div>
 		</div>
 		<!-- 여행 신청 버튼 -->
-		<a th:href="@{|/travel/request/${recruit.id}|}" class="btn btn-primary">여행 신청</a>
+		<a th:href="@{|/travel/request/${recruit.id}|}"
+			class="btn btn-primary" sec:authorize="isAuthenticated()">여행 신청</a> <a
+			class="btn btn-primary anonymous-request"
+			sec:authorize="isAnonymous()" href="javascript:void(0);"
+			th:data-uri="@{|/user/login|}">여행 신청</a>
 		<!-- 댓글의 갯수 표시 -->
 		<h5 class="border-bottom my-3 py-2"
 			th:text="|${#lists.size(recruit.replyList)}개의 댓글이 있습니다.|"></h5>
@@ -103,6 +107,16 @@
 		Array.from(delete_elements).forEach(function(element) {
 			element.addEventListener('click', function() {
 				if (confirm("정말로 삭제하시겠습니까?")) {
+					location.href = this.dataset.uri;
+				}
+				;
+			});
+		});
+		const anonymous_request = document
+				.getElementsByClassName("anonymous-request");
+		Array.from(anonymous_request).forEach(function(element) {
+			element.addEventListener('click', function() {
+				if (confirm("로그인이 필요한 서비스입니다.")) {
 					location.href = this.dataset.uri;
 				}
 				;

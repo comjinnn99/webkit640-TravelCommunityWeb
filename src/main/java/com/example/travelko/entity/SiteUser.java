@@ -39,4 +39,7 @@ public class SiteUser {
     
     @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
     private List<Reply> replyList;
+    
+    @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
+    private List<Travel> travelList;
 }
