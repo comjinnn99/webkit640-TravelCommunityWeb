@@ -48,11 +48,9 @@ public class UserService {
     }
     
     public void delete(String username) {
-    	System.out.println("userservice >>> "+username);
     	Optional<SiteUser> siteUser = this.userRepository.findByUsername(username);
         if (siteUser.isPresent()) {
         	SiteUser delSiteUser = siteUser.get();
-        	System.out.println("userservice >>> "+delSiteUser);
         	this.userRepository.deleteById(delSiteUser.getId());
         } else {
             throw new DataNotFoundException("siteuser not found");

@@ -73,7 +73,6 @@ public class UserController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/withdraw")
     public String withdraw(Principal principal) {
-    	System.out.println("usercon >>> "+principal.getName());
     	this.userService.delete(principal.getName());
     	return "redirect:/user/logout";
     }
